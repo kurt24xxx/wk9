@@ -2,11 +2,11 @@ import { Container} from "@chakra-ui/react";
 import Auth from "../components/Auth";
 import AddTodo from "../components/AddTodo";
 
-export default function AddToDo() {
+export default function AddTodo() {
 
     return (
-        <Container maxW="6xl">
-            <Auth /> <addToDo /> 
+        <Container maxW="7xl">
+            <Auth /> <AddTodo /> 
 
         </Container>
     )

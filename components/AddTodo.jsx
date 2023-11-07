@@ -3,24 +3,20 @@ import {
 Box,
 Input,
 Button,
-Textarea,
 Stack,
-Select,
-useToast,
+useToast
 } from "@chakra-ui/react";
 import useAuth from "../hooks/useAuth";
 import { addTodo } from "../api/todo";
 const AddTodo = () => {
-const [title, setTitle] = React.useState("");
-const [description, setDescription] = React.useState("");
-const [status, setStatus] = React.useState("pending");
-const [isLoading, setIsLoading] = React.useState(false);
+const [name, setname] = React.useState("");
+
 const toast = useToast();
-const { isLoggedIn, user } = useAuth();
+const { isLoggedIn, user } = useAuth() || {};
 const handleTodoCreate = async () => {
 if (!isLoggedIn) {
 toast({
-title: "You must be logged in to create a todo",
+title: "You must be logged in",
 status: "error",
 duration: 9000,
 isClosable: true,
@@ -28,50 +24,35 @@ isClosable: true,
 return;
 }
 setIsLoading(true);
-const todo = {
-title,
-description,
-status,
-userId: user.uid,
+const Todo = {
+name,
+userId: user.uid
 };
-await addTodo(todo);
+await addTodo(Todo);
 setIsLoading(false);
 setTitle("");
 setDescription("");
 setStatus("pending");
-toast({ title: "Todo created successfully", status: "success" });
+toast({ title: "created successfully", status: "success" });
 };
 return (
 <Box w="40%" margin={"0 auto"} display="block" mt={5}>
 <Stack direction="column">
 <Input
-placeholder="Title"
-value={title}
-onChange={(e) => setTitle(e.target.value)}
+placeholder="Name"
+value={name}
+onChange={(e) => setname(e.target.value)}
 />
-<Textarea
-placeholder="Description"
-value={description}
-onChange={(e) => setDescription(e.target.value)}
-/>
-<Select value={status} onChange={(e) => setStatus(e.target.value)}>
-<option
-value={"pending"}
-style={{ color: "yellow", fontWeight: "bold" }}
->
-Pending ⌛
-</option>
-<option
-value={"completed"}
-style={{ color: "green", fontWeight: "bold" }}
->
-Completed ✅
-</option>
-</Select>
+
+
+
+
+
+
 <Button
 onClick={() => handleTodoCreate()}
-disabled={title.length < 1 || description.length < 1 || isLoading}
-variantColor="teal"
+disabled={name.length < 1  || isLoading}
+colorScheme="teal"
 variant="solid"
 >
 Add
@@ -80,4 +61,4 @@ Add
 </Box>
 );
 };
-export default AddTodo;
+export default  AddTodo;

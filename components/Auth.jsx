@@ -6,7 +6,7 @@ import { auth } from "../firebase";
 import useAuth from "../hooks/useAuth";
 const Auth = () => {
 const { toggleColorMode, colorMode } = useColorMode();
-const { isLoggedIn, user } = useAuth();
+const { isLoggedIn, user } = useAuth() || {};
 const handleAuth = async () => {
 const provider = new GoogleAuthProvider();
 signInWithPopup(auth, provider)
@@ -30,10 +30,15 @@ const credential = GoogleAuthProvider.credentialFromError(error);
 });
 };
 return (
-<Box position={"fixed"} top="5%" right="5%">
-<Button onClick={() => toggleColorMode()}>
+    <Box display="flex" alignItems="center" justifyContent="space-between">
+        <Box>
+            <Link href="/add-Todo">Add</Link></Box>
+    <Box><Link href="/">List All</Link></Box>
+    <Box textAlign="right"><Button onClick={() => toggleColorMode()}>
 {colorMode == "dark" ? <FaSun /> : <FaMoon />}
-</Button>{" "}
+</Button>
+
+{" "}
 {isLoggedIn && (
 <>
 <Text color="green.500">{user.email}</Text>
@@ -47,7 +52,7 @@ Logout
 Login with Google
 </Button>
 )}
-</Box>
+</Box></Box>
 );
 };
 export default Auth;
